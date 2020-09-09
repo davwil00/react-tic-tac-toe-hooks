@@ -10,19 +10,17 @@ const Square = (props) => {
   )
 }
 
-const handleClick = (setSquares, setXIsNext, i) => {
-  setXIsNext(xIsNext => {
-    setSquares(squares => {
-      if (calculateWinner(squares)) {
-        return squares
-      }
-  
-      const newSquares = squares.slice()    
-      newSquares[i] = xIsNext ? 'X' : 'O'
-      return newSquares
-    })
-    return !xIsNext
+const handleClick = (setSquares, setXIsNext, xIsNext, i) => {
+  setSquares(squares => {
+    if (calculateWinner(squares)) {
+      return squares
+    }
+
+    const newSquares = squares.slice()    
+    newSquares[i] = xIsNext ? 'X' : 'O'
+    return newSquares
   })
+  setXIsNext(!xIsNext)
 }
 
 const Board = () => {
@@ -39,7 +37,7 @@ const Board = () => {
   }
   
   const renderSquare = (i) => {
-    return <Square value={squares[i]} onClick={() => handleClick(setSquares, setXIsNext, i)} />
+    return <Square value={squares[i]} onClick={() => handleClick(setSquares, setXIsNext, xIsNext, i)} />
   }
 
   return (

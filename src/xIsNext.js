@@ -1,45 +1,31 @@
-import React, {useState} from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
+import React, {useState} from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
 
 const Square = (props) => {
   return (
     <button className="square" onClick={props.onClick}>
       {props.value}
     </button>
-  )
+  );
 }
 
-const handleClick = (setSquares, setXIsNext, i) => {
-  setXIsNext(xIsNext => {
-    setSquares(squares => {
-      if (calculateWinner(squares)) {
-        return squares
-      }
-  
-      const newSquares = squares.slice()    
-      newSquares[i] = xIsNext ? 'X' : 'O'
-      return newSquares
-    })
-    return !xIsNext
+const handleClick = (setSquares, setXIsNext, xIsNext, i) => {
+  setSquares(squares => {
+    const newSquares = squares.slice();    
+    newSquares[i] = xIsNext ? 'X' : 'O';
+    return newSquares
   })
+  setXIsNext(!xIsNext)
 }
 
 const Board = () => {
   const [squares, setSquares] = useState(Array(9).fill(null))
   const [xIsNext, setXIsNext] = useState(true)
-
-  const winner = calculateWinner(squares)
-  
-  let status    
-  if (winner) {      
-    status = 'Winner: ' + winner    
-  } else {
-    status = `Next player: ${xIsNext ? 'X' : 'O'}`
-  }
+  const status = `Next player: ${xIsNext ? 'X' : 'O'}`;
   
   const renderSquare = (i) => {
-    return <Square value={squares[i]} onClick={() => handleClick(setSquares, setXIsNext, i)} />
+    return <Square value={squares[i]} onClick={() => handleClick(setSquares, setXIsNext, xIsNext, i)} />;
   }
 
   return (
@@ -61,29 +47,7 @@ const Board = () => {
         {renderSquare(8)}
       </div>
     </div>
-  )
-}
-
-const calculateWinner = (squares) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ]
-
-  for (const line of lines) {
-    const [a, b, c] = line
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
-    }
-  }
-
-  return null
+  );
 }
 
 const Game = () => {
@@ -97,7 +61,7 @@ const Game = () => {
         <ol>{/* TODO */}</ol>
       </div>
     </div>
-  )
+  );
 }
 
 // ========================================
@@ -105,4 +69,4 @@ const Game = () => {
 ReactDOM.render(
   <Game />,
   document.getElementById('root')
-)
+);
